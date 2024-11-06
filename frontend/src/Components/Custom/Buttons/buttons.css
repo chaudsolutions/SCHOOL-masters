@@ -1,0 +1,26 @@
+.linkOne,
+.linkTwo {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  width: fit-content;
+  font-size: 0.9rem;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+.linkOne {
+  background-color: var(--accent-color);
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--accent-color-dark);
+    color: var(--white);
+  }
+}
+.linkTwo {
+  color: var(--white);
+  background-color: var(--black);
+  border: 1px solid var(--trans-more-black);
+}

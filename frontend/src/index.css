@@ -1,0 +1,157 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --font-family-one: "Jost", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+
+  font-family: var(--font-family-one);
+
+  /* background smooth transition */
+  transition: background 0.3s ease-in-out;
+}
+
+:root {
+  --background-color: white;
+  --black: black;
+  --white: white;
+  --trans-black: rgba(0, 0, 0, 0.5);
+  --trans-more-black: rgba(0, 0, 0, 0.2);
+  --trans-white: rgba(255, 255, 255, 0.5);
+  --trans-more-white: rgba(255, 255, 255, 0.2);
+
+  /* accent colors */
+  --accent-color: rgb(0, 114, 187);
+  --accent-color-dark: rgb(0, 60, 97);
+  --accent-color-second: rgb(246, 147, 28);
+  --accent-color-second-dark: rgb(163, 99, 21);
+
+  /* variables */
+  --padding-clamp: clamp(3%, 15% - 81px, 10%);
+}
+
+body {
+  background-color: var(--accent-color);
+}
+/* general styles */
+ul {
+  list-style-type: none;
+}
+ul > li {
+  transition: 0.2s ease-in-out;
+}
+a {
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+}
+input,
+textarea {
+  border: none;
+  outline: none;
+}
+select {
+  outline: none;
+  color: var(--black);
+}
+button {
+  border: none;
+  outline: none;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+/* loader container */
+.loader-container {
+  height: 70vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.null {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+/* style animation */
+.animation {
+  height: 12rem;
+}
+/* scroll to top BTN */
+.scrollToTopBtn {
+  background-color: var(--background-color) !important;
+  bottom: 5rem !important;
+  border-radius: 50% !important;
+  width: 3rem !important;
+  height: 3rem !important;
+  box-shadow: 0px 2px 0.2rem var(--black) !important;
+  z-index: 100;
+}
+
+/* toggle buttons */
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 1rem;
+
+  .activeBtn {
+    background-color: var(--accent-color-second-dark);
+    box-shadow: 0.1rem 0.2rem 0.3rem var(--trans-black);
+  }
+
+  > button {
+    background-color: var(--accent-color-second);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: var(--white);
+
+    &:hover {
+      background-color: var(--accent-color-second-dark);
+      box-shadow: 0.1rem 0.2rem 0.3rem var(--trans-black);
+    }
+  }
+}
+
+.App {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--background-color);
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+
+  > * {
+    width: 100%;
+  }
+}
+
+/* Fix zoom bug on clicking input on mobile devices */
+@media screen and (max-width: 767px) {
+  input,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* REMOVE INPUT ARROWS */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Add style for textarea */
+textarea {
+  resize: none;
+  height: fit-content;
+  min-height: 20vh;
+}

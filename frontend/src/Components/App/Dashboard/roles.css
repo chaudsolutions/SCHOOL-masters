@@ -1,0 +1,39 @@
+.roles-dashboard {
+  padding: 1rem var(--padding-clamp);
+  display: flex;
+  flex-flow: row wrap;
+  gap: 2rem;
+}
+.roles-dashboard > li {
+  flex-grow: 1;
+  width: 45%;
+  min-width: 15rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 0.5rem;
+  box-shadow: 0.1rem 0.2rem 0.5rem var(--trans-black);
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+.roles-dashboard > li > a {
+  border-radius: inherit;
+  padding: 1rem 0.5rem;
+  color: var(--black);
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.roles-dashboard > li > a > :nth-child(1) {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--accent-color);
+}
+.roles-dashboard > li > a > :nth-child(1) > h4 {
+  font-size: 1.6rem;
+}
+.roles-dashboard > li > a > p {
+  font-size: 0.8rem;
+  color: var(--trans-black);
+}
