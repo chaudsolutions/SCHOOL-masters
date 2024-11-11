@@ -4,7 +4,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 // app constants
-const mongoUrl = process.env.mongodbLocal;
+const mongoUrl = process.env.mongodbLive;
 const port = process.env.PORT;
 
 // Create http server
@@ -27,6 +27,7 @@ const requireAuth = require("./Models/requireAuth.js");
 const Authentication = require("./Routes/Authentication.js");
 const userRoute = require("./Routes/UserDocs.js");
 const adminRoute = require("./Routes/AdminRoute");
+const teacherRoute = require("./Routes/TeacherRoute");
 
 // Define a default route handler for the root URL ("/")
 app.get("/", (req, res) => {
@@ -45,6 +46,11 @@ app.use("/user", userRoute);
 app.use("/admin", requireAuth);
 // Admin route
 app.use("/admin", adminRoute);
+
+// Route protection
+app.use("/teacher", requireAuth);
+// Admin route
+app.use("/teacher", teacherRoute);
 
 // Start http server
 app.listen(port, () => {

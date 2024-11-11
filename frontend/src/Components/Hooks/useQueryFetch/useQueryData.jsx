@@ -1,7 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import {
+  fetchAssignmentById,
+  fetchAssignments,
+  fetchMessages,
   fetchNotifications,
-  fetchRandomNames,
+  fetchResources,
+  fetchSurvey,
+  fetchSurveys,
   fetchUser,
   fetchUsers,
 } from "../useFetch";
@@ -26,7 +31,7 @@ export const useUserData = () => {
 };
 
 // fetch all users details
-export const useAllUsersData = () => {
+export const useAllUsersData = (userType) => {
   const { user } = useAuthContext();
 
   const {
@@ -36,7 +41,7 @@ export const useAllUsersData = () => {
     refetch: refetchAllUsersData,
   } = useQuery({
     queryKey: ["allUsers"], // Use the new object-based syntax
-    queryFn: fetchUsers,
+    queryFn: () => fetchUsers(userType),
     enabled: !!user,
   });
 
@@ -45,29 +50,6 @@ export const useAllUsersData = () => {
     isAllUsersDataLoading,
     isAllUsersDataError,
     refetchAllUsersData,
-  };
-};
-
-// use random users details
-export const useRandomUsersData = () => {
-  const { user } = useAuthContext();
-
-  const {
-    data: randomUsersData,
-    isLoading: isRandomUsersDataLoading,
-    isError: isRandomUsersDataError,
-    refetch: refetchRandomUsersData,
-  } = useQuery({
-    queryKey: ["randomUsers"], // Use the new object-based syntax
-    queryFn: fetchRandomNames,
-    enabled: !!user,
-  });
-
-  return {
-    randomUsersData,
-    isRandomUsersDataLoading,
-    isRandomUsersDataError,
-    refetchRandomUsersData,
   };
 };
 
@@ -91,5 +73,143 @@ export const useNotificationsData = () => {
     isNotificationsDataLoading,
     isNotificationsDataError,
     refetchNotificationsData,
+  };
+};
+
+// use get surveys data
+export const useSurveyData = () => {
+  const { user } = useAuthContext();
+
+  const {
+    data: surveyData,
+    isLoading: isSurveyDataLoading,
+    isError: isSurveyDataError,
+    refetch: refetchSurveyData,
+  } = useQuery({
+    queryKey: ["survey"], // Use the new object-based syntax
+    queryFn: fetchSurveys,
+    enabled: !!user,
+  });
+
+  return {
+    surveyData,
+    isSurveyDataLoading,
+    isSurveyDataError,
+    refetchSurveyData,
+  };
+};
+
+// use get surveyId data
+export const useSurveyIdData = (surveyId) => {
+  const { user } = useAuthContext();
+
+  const {
+    data: surveyIdData,
+    isLoading: isSurveyIdDataLoading,
+    isError: isSurveyIdDataError,
+    refetch: refetchSurveyIdData,
+  } = useQuery({
+    queryKey: ["surveyId", surveyId], // Use the new object-based syntax
+    queryFn: () => fetchSurvey(surveyId),
+    enabled: !!user,
+  });
+
+  return {
+    surveyIdData,
+    isSurveyIdDataLoading,
+    isSurveyIdDataError,
+    refetchSurveyIdData,
+  };
+};
+
+// use get resources by role data
+export const useResourcesByRoleData = (role) => {
+  const { user } = useAuthContext();
+
+  const {
+    data: resourcesByRoleData,
+    isLoading: isResourcesByRoleDataLoading,
+    isError: isResourcesByRoleDataError,
+    refetch: refetchResourcesByRoleData,
+  } = useQuery({
+    queryKey: ["resourcesByRole", role], // Use the new object-based syntax
+    queryFn: () => fetchResources(role),
+    enabled: !!user,
+  });
+
+  return {
+    resourcesByRoleData,
+    isResourcesByRoleDataLoading,
+    isResourcesByRoleDataError,
+    refetchResourcesByRoleData,
+  };
+};
+
+// use get messages data
+export const useMessagesData = () => {
+  const { user } = useAuthContext();
+
+  const {
+    data: messagesData,
+    isLoading: isMessagesDataLoading,
+    isError: isMessagesDataError,
+    refetch: refetchMessages,
+  } = useQuery({
+    queryKey: ["messages"],
+    queryFn: fetchMessages,
+    enabled: !!user,
+  });
+
+  return {
+    messagesData,
+    isMessagesDataLoading,
+    isMessagesDataError,
+    refetchMessages,
+  };
+};
+
+// use get assignments data
+export const useAssignmentsData = () => {
+  const { user } = useAuthContext();
+
+  const {
+    data: assignmentsData,
+    isLoading: isAssignmentsDataLoading,
+    isError: isAssignmentsDataError,
+    refetch: refetchAssignments,
+  } = useQuery({
+    queryKey: ["assignments"],
+    queryFn: fetchAssignments,
+    enabled: !!user,
+  });
+
+  return {
+    assignmentsData,
+    isAssignmentsDataLoading,
+    isAssignmentsDataError,
+    refetchAssignments,
+  };
+};
+
+// use get assignments by ID data
+export const useAssignmentsByIdData = (assignmentId) => {
+  const { user } = useAuthContext();
+
+  const {
+    data: assignmentByIdData,
+    isLoading: isAssignmentByIdDataLoading,
+    isError: isAssignmentByIdDataError,
+    refetch: refetchAssignmentById,
+  } = useQuery({
+    queryKey: ["assignment", assignmentId],
+    queryFn: () => fetchAssignmentById(assignmentId),
+    enabled: !!user,
+  });
+
+  return {
+    assignmentByIdData,
+    isAssignmentByIdDataLoading,
+    isAssignmentByIdDataError,
+    refetchAssignmentById,
   };
 };

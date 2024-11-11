@@ -7,6 +7,8 @@ import StudentHome from "./Roles/StudentHome";
 import TeacherHome from "./Roles/TeacherHome";
 import { MdNotificationsNone } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { FcSurvey } from "react-icons/fc";
+import { GrAnnounce } from "react-icons/gr";
 
 const Dashboard = () => {
   const { userData, isUserDataLoading } = useUserData();
@@ -32,6 +34,25 @@ const Dashboard = () => {
           : "Manage notifications and announcements",
       icon: <MdNotificationsNone size={size} />,
       link: "/notifications",
+    },
+    {
+      name: "Surveys",
+      description:
+        role === "admin"
+          ? "Create Surveys to gather feedbacks"
+          : "Answers surveys and provide feedbacks",
+      icon: <FcSurvey size={size} />,
+      link: role === "admin" ? "/admin/surveys" : "/surveys",
+    },
+    {
+      name: role === "admin" ? "Resources Mgt" : "Resources",
+      description:
+        role === "admin"
+          ? "School learning resources, guidelines, handbooks"
+          : "Find the resources available to you",
+      icon: <GrAnnounce size={size} />,
+      link:
+        role === "admin" ? "/admin/resources-management" : `/${role}/resources`,
     },
   ];
 

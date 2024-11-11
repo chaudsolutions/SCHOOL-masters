@@ -12,7 +12,7 @@ const ManageUsers = () => {
   const { token } = useToken();
 
   const { allUsersData, isAllUsersDataLoading, refetchAllUsersData } =
-    useAllUsersData();
+    useAllUsersData("all");
 
   if (isAllUsersDataLoading) {
     return (

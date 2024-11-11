@@ -2,7 +2,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import useResponsive from "../../Hooks/useResponsive";
 import { NavLink } from "react-router-dom";
 import { useUserData } from "../../Hooks/useQueryFetch/useQueryData";
-import { CiSettings } from "react-icons/ci";
+import { LuMessagesSquare } from "react-icons/lu";
 
 const NavMenu = () => {
   const { userData, isUserDataLoading } = useUserData();
@@ -21,6 +21,10 @@ const NavMenu = () => {
       name: "About",
       link: "/about",
     },
+    {
+      name: !isUserDataLoading && role === "admin" ? "Messages" : "Inbox",
+      link: "/messages",
+    },
   ];
 
   const navMenuOutput = navMenuArray.map((item, i) => (
@@ -31,25 +35,16 @@ const NavMenu = () => {
           {isMobile && <p>{item.content}</p>}
         </div>
 
-        {isMobile && <IoIosArrowForward />}
+        {isMobile && item.link === "/messages" ? (
+          <LuMessagesSquare />
+        ) : (
+          <IoIosArrowForward />
+        )}
       </NavLink>
     </li>
   ));
 
-  return (
-    <ul className="nav-menu-ul">
-      {navMenuOutput}
-
-      {!isUserDataLoading && role === "admin" && (
-        <li>
-          <NavLink activeclassname="active" to="/admin">
-            <strong>Admin</strong>
-            <CiSettings size={20} />
-          </NavLink>
-        </li>
-      )}
-    </ul>
-  );
+  return <ul className="nav-menu-ul">{navMenuOutput}</ul>;
 };
 
 export default NavMenu;

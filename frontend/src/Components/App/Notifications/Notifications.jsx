@@ -57,7 +57,7 @@ const Notifications = () => {
       <li key={notification._id}>
         <h4>{notification.subject}</h4>
         <p>{notification.announcement}</p>
-        <p>created at {new Date(notification.createdAt).toLocaleString()}</p>
+        <p>created at {new Date(notification.createdAt).toDateString()}</p>
         {role === "admin" && (
           <button onClick={deleteNotification}>
             {deleteBtn ? "wait..." : "Delete"}

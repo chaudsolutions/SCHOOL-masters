@@ -19,6 +19,17 @@ import ManageUsers from "./Components/App/Dashboard/Roles/Admin/ManageUsers";
 import Analytics from "./Components/App/Dashboard/Roles/Admin/Analytics";
 import Announcements from "./Components/App/Dashboard/Roles/Admin/Announcements";
 import Notifications from "./Components/App/Notifications/Notifications";
+import CreateSurveys from "./Components/App/Dashboard/Roles/Admin/CreateSurveys";
+import Survey from "./Components/App/Survey/Survey";
+import SurveyId from "./Components/App/Survey/SurveyId";
+import ResourcesManagement from "./Components/App/Dashboard/Roles/Admin/ResourcesManagement";
+import Resources from "./Components/App/Resources/Resources";
+import Messages from "./Components/App/Messages/Messages";
+import Profile from "./Components/App/Profile/Profile";
+import Overview from "./Components/App/Dashboard/Roles/Teacher/Overview";
+import Assignments from "./Components/App/Dashboard/Roles/Teacher/Assignments";
+import AssignmentsId from "./Components/App/Assignments/AssignmentId";
+import StudentAssignment from "./Components/App/Dashboard/Roles/Student/StudentAssignment";
 
 function App() {
   const { user } = useAuthContext();
@@ -27,6 +38,8 @@ function App() {
 
   const { role } = userData || {};
   const isAdmin = role === "admin";
+  const isTeacher = role === "teacher";
+  const isStudent = role === "student";
 
   if (isUserDataLoading) {
     return (
@@ -67,11 +80,47 @@ function App() {
               element={user ? <Notifications /> : <Navigate to="/login" />}
             />
 
+            {/* profile route */}
+            <Route
+              path="/profile"
+              element={user ? <Profile /> : <Navigate to="/login" />}
+            />
+
+            {/* messages route */}
+            <Route
+              path="/messages"
+              element={
+                user && (isAdmin || isTeacher) ? (
+                  <Messages />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+
+            {/* surveys route */}
+            <Route
+              path="/surveys"
+              element={user ? <Survey /> : <Navigate to="/login" />}
+            />
+            {/* survey ID route */}
+            <Route
+              path="/survey/:surveyId"
+              element={user ? <SurveyId /> : <Navigate to="/login" />}
+            />
+
+            {/* resources route */}
+            <Route
+              path="/:role/resources"
+              element={user ? <Resources /> : <Navigate to="/login" />}
+            />
+
             {/* dashboard */}
             <Route
               path="/dashboard"
               element={user ? <Dashboard /> : <Navigate to="/login" />}
             />
+
             {/* admin routes */}
             <Route
               path="/admin/users"
@@ -89,6 +138,58 @@ function App() {
               path="/admin/announcements"
               element={
                 user && isAdmin ? <Announcements /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/admin/surveys"
+              element={
+                user && isAdmin ? <CreateSurveys /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/admin/resources-management"
+              element={
+                user && isAdmin ? (
+                  <ResourcesManagement />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+
+            {/* teachers route */}
+            <Route
+              path="/teacher/overview"
+              element={
+                user && isTeacher ? <Overview /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/teacher/assignments"
+              element={
+                user && isTeacher ? <Assignments /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/assignment/:assignmentId"
+              element={
+                user && (isTeacher || isStudent) ? (
+                  <AssignmentsId />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+
+            {/* students route */}
+            <Route
+              path="/student/assignments"
+              element={
+                user && isStudent ? (
+                  <StudentAssignment />
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
             />
 
