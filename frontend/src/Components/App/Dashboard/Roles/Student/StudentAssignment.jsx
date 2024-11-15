@@ -6,9 +6,13 @@ import {
 } from "../../../../Hooks/useQueryFetch/useQueryData";
 import { FcProcess } from "react-icons/fc";
 import { MdCancel } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const StudentAssignment = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const [view, setView] = useState("active-assignment");
   const [filterAssignment, setFilterAssignment] = useState(true);
 

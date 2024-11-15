@@ -1,8 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useResourcesByRoleData } from "../../Hooks/useQueryFetch/useQueryData";
 import PageLoader from "../../Animations/PageLoader";
+import { useEffect } from "react";
 
 const Resources = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const { role } = useParams();
 
   const { resourcesByRoleData, isResourcesByRoleDataLoading } =

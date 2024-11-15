@@ -13,6 +13,7 @@
   > img {
     object-fit: contain;
     border-radius: 0 2rem 0 2rem;
+    min-height: 30vh;
   }
 
   > :nth-child(2) {

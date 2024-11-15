@@ -9,7 +9,10 @@ const StudentsSchema = new Schema(
       ref: "User",
       required: true,
     },
+    studentName: { type: String, required: true },
+    studentEmail: { type: String, required: true },
     assignmentDetails: { type: String, required: true },
+    grade: { type: Number },
   },
   { timestamps: true }
 );

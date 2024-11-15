@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateAssignment } from "../../../../Custom/Forms/Forms";
 import { useAssignmentsData } from "../../../../Hooks/useQueryFetch/useQueryData";
 import PageLoader from "../../../../Animations/PageLoader";
@@ -7,6 +7,10 @@ import { FcProcess } from "react-icons/fc";
 import { MdCancel } from "react-icons/md";
 
 const Assignments = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const [view, setView] = useState("create-assignment");
 
   const { assignmentsData, isAssignmentsDataLoading, refetchAssignments } =

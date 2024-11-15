@@ -4,8 +4,13 @@ import { LinkOne } from "../../Custom/Buttons/LinkBtn";
 import "./home.css";
 import { PiSpiralFill } from "react-icons/pi";
 import { FaRegCircleCheck } from "react-icons/fa6";
+import { useEffect } from "react";
 
 const Home = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const secOne = [
     {
       name: "Everyday Learning and Developing",

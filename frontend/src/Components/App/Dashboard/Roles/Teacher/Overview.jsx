@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   generateMockClasses,
   useStudentsData,
 } from "../../../../Hooks/useMockData";
 
 const Overview = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const [view, setView] = useState("class");
   const [classes] = useState(generateMockClasses());
 

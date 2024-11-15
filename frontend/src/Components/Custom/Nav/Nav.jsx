@@ -42,7 +42,7 @@ const Nav = () => {
     <>
       <div className="nav">
         <div>
-          <Logo navigate={navigate} />
+          <Logo navigate={navigate} user={user} />
           {!isMobile && <NavMenu />}
         </div>
 
@@ -66,9 +66,13 @@ const Nav = () => {
   );
 };
 
-export const Logo = ({ navigate }) => {
+export const Logo = ({ navigate, user }) => {
+  const goHome = () => {
+    user ? navigate("/dashboard") : navigate("/");
+  };
+
   return (
-    <div className="logo-contain" onClick={() => navigate && navigate("/")}>
+    <div className="logo-contain" onClick={goHome}>
       <img src={logo} alt="logo" />
     </div>
   );
@@ -76,6 +80,7 @@ export const Logo = ({ navigate }) => {
 
 Logo.propTypes = {
   navigate: PropTypes.func,
+  user: PropTypes.string,
 };
 
 export default Nav;

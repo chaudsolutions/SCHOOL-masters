@@ -8,6 +8,7 @@ import {
   fetchSurvey,
   fetchSurveys,
   fetchUser,
+  fetchUserById,
   fetchUsers,
 } from "../useFetch";
 import { useAuthContext } from "../../Context/AuthContext";
@@ -50,6 +51,29 @@ export const useAllUsersData = (userType) => {
     isAllUsersDataLoading,
     isAllUsersDataError,
     refetchAllUsersData,
+  };
+};
+
+// use get user by ID data
+export const useUserByIdData = (userId) => {
+  const { user } = useAuthContext();
+
+  const {
+    data: userByIdData,
+    isLoading: isUserByIdDataLoading,
+    isError: isUserByIdDataError,
+    refetch: refetchUserById,
+  } = useQuery({
+    queryKey: ["userId", userId],
+    queryFn: () => fetchUserById(userId),
+    enabled: !!user,
+  });
+
+  return {
+    userByIdData,
+    isUserByIdDataLoading,
+    isUserByIdDataError,
+    refetchUserById,
   };
 };
 

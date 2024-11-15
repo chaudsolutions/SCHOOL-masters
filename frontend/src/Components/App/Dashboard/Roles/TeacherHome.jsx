@@ -1,3 +1,4 @@
+import { FaPeopleRoof } from "react-icons/fa6";
 import { MdAssignment, MdManageAccounts } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -16,6 +17,12 @@ const TeacherHome = () => {
       description: "Create and Grade Assignments",
       icon: <MdAssignment size={size} />,
       link: "/teacher/assignments",
+    },
+    {
+      name: "Individuals",
+      description: "Students and Parents",
+      icon: <FaPeopleRoof size={size} />,
+      link: "/teacher/individuals",
     },
   ];
 

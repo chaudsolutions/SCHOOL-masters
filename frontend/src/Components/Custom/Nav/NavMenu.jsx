@@ -7,7 +7,7 @@ import { LuMessagesSquare } from "react-icons/lu";
 const NavMenu = () => {
   const { userData, isUserDataLoading } = useUserData();
 
-  const { role } = userData || {};
+  const { _id, role } = userData || {};
 
   // responsive hook
   const isMobile = useResponsive();
@@ -21,10 +21,6 @@ const NavMenu = () => {
       name: "About",
       link: "/about",
     },
-    {
-      name: !isUserDataLoading && role === "admin" ? "Messages" : "Inbox",
-      link: "/messages",
-    },
   ];
 
   const navMenuOutput = navMenuArray.map((item, i) => (
@@ -32,19 +28,42 @@ const NavMenu = () => {
       <NavLink activeclassname="active" to={item.link}>
         <div>
           <h4>{item.name}</h4>
-          {isMobile && <p>{item.content}</p>}
         </div>
 
-        {isMobile && item.link === "/messages" ? (
-          <LuMessagesSquare />
-        ) : (
-          <IoIosArrowForward />
-        )}
+        {isMobile && <IoIosArrowForward />}
       </NavLink>
     </li>
   ));
 
-  return <ul className="nav-menu-ul">{navMenuOutput}</ul>;
+  return (
+    <ul className="nav-menu-ul">
+      {navMenuOutput}
+      {(role === "admin" || role === "teacher") && (
+        <li>
+          <NavLink activeclassname="active" to="/messages">
+            <div>
+              <h4>
+                {!isUserDataLoading && role === "admin" ? "Messages" : "Inbox"}
+              </h4>
+            </div>
+
+            <LuMessagesSquare />
+          </NavLink>
+        </li>
+      )}
+      {(role === "student" || role === "parent") && (
+        <li>
+          <NavLink activeclassname="active" to={`/teacher/message/${_id}`}>
+            <div>
+              <h4>Chat with Teacher</h4>
+            </div>
+
+            <LuMessagesSquare />
+          </NavLink>
+        </li>
+      )}
+    </ul>
+  );
 };
 
 export default NavMenu;

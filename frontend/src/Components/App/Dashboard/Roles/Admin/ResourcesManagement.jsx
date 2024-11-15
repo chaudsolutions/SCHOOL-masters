@@ -3,8 +3,13 @@ import { roles, serVer, useToken } from "../../../../Hooks/useVariable";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ButtonLoad from "../../../../Animations/ButtonLoad";
+import { useEffect } from "react";
 
 const ResourcesManagement = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const { token } = useToken();
 
   // React Hook Form

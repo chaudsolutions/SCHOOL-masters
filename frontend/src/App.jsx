@@ -4,8 +4,10 @@ import ScrollToTop from "react-scroll-to-top";
 import ErrorBoundary from "./Components/Error/ErrorBoundary";
 import Footer from "./Components/Custom/Footer/Footer";
 import { Toaster } from "react-hot-toast";
+import { useUserData } from "./Components/Hooks/useQueryFetch/useQueryData";
 
 // components
+import PageLoader from "./Components/Animations/PageLoader";
 import Nav from "./Components/Custom/Nav/Nav";
 import NotFound from "./Components/App/404/NotFound";
 import BuggyComponent from "./Components/Error/Bug";
@@ -13,8 +15,6 @@ import Home from "./Components/App/Home/Home";
 import Register from "./Components/App/Authentication/Register";
 import Login from "./Components/App/Authentication/Login";
 import Dashboard from "./Components/App/Dashboard/Dashboard";
-import { useUserData } from "./Components/Hooks/useQueryFetch/useQueryData";
-import PageLoader from "./Components/Animations/PageLoader";
 import ManageUsers from "./Components/App/Dashboard/Roles/Admin/ManageUsers";
 import Analytics from "./Components/App/Dashboard/Roles/Admin/Analytics";
 import Announcements from "./Components/App/Dashboard/Roles/Admin/Announcements";
@@ -30,6 +30,9 @@ import Overview from "./Components/App/Dashboard/Roles/Teacher/Overview";
 import Assignments from "./Components/App/Dashboard/Roles/Teacher/Assignments";
 import AssignmentsId from "./Components/App/Assignments/AssignmentId";
 import StudentAssignment from "./Components/App/Dashboard/Roles/Student/StudentAssignment";
+import Individuals from "./Components/App/Dashboard/Roles/Teacher/Individuals";
+import ViewIndividuals from "./Components/App/Dashboard/Roles/Teacher/ViewIndividuals";
+import MessageIndividual from "./Components/App/Dashboard/Roles/Teacher/Messageindividual";
 
 function App() {
   const { user } = useAuthContext();
@@ -40,6 +43,7 @@ function App() {
   const isAdmin = role === "admin";
   const isTeacher = role === "teacher";
   const isStudent = role === "student";
+  const isParent = role === "parent";
 
   if (isUserDataLoading) {
     return (
@@ -175,6 +179,32 @@ function App() {
               element={
                 user && (isTeacher || isStudent) ? (
                   <AssignmentsId />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/teacher/individuals"
+              element={
+                user && isTeacher ? <Individuals /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/view/:userRole/:userId"
+              element={
+                user && (isTeacher || isParent) ? (
+                  <ViewIndividuals />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/teacher/message/:userId"
+              element={
+                user && (isTeacher || isStudent || isParent) ? (
+                  <MessageIndividual />
                 ) : (
                   <Navigate to="/login" />
                 )

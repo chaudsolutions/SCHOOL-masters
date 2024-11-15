@@ -9,8 +9,13 @@ import { MdNotificationsNone } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FcSurvey } from "react-icons/fc";
 import { GrAnnounce } from "react-icons/gr";
+import { useEffect } from "react";
 
 const Dashboard = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const { userData, isUserDataLoading } = useUserData();
 
   const { role } = userData || {};

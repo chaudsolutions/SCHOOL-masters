@@ -1,0 +1,29 @@
+.students {
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+}
+.students > h3 {
+  color: var(--accent-color);
+}
+.students form {
+  border: 1px solid var(--black);
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+}
+.students form input {
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--black);
+}
+
+/* end assignment btn */
+.endBtn {
+  color: var(--white);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+
+  &:hover {
+    box-shadow: 0.1rem 0.2rem 0.3rem var(--trans-black);
+  }
+}

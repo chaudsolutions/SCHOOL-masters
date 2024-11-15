@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import PageLoader from "../../Animations/PageLoader";
 import { useSurveyData } from "../../Hooks/useQueryFetch/useQueryData";
+import { useEffect } from "react";
 
 const Survey = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const { surveyData, isSurveyDataLoading } = useSurveyData();
 
   if (isSurveyDataLoading) {

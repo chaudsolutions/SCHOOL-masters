@@ -12,7 +12,7 @@ router.put("/completeAssignment/:assignmentId", async (req, res) => {
   try {
     // Find the user
     const user = await UsersModel.findById(userId);
-    if (!user !== "student") {
+    if (user.role !== "student") {
       throw Error("Unauthorized access");
     }
 
@@ -23,7 +23,12 @@ router.put("/completeAssignment/:assignmentId", async (req, res) => {
     }
 
     // submit user assignment
-    assignment.students.push({ students: userId, assignmentDetails });
+    assignment.students.push({
+      studentId: userId,
+      studentName: user.name,
+      studentEmail: user.email,
+      assignmentDetails,
+    });
 
     await assignment.save();
 

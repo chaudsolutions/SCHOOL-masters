@@ -155,3 +155,21 @@
     gap: 1rem;
   }
 }
+
+/* individuals */
+.manageUsers .viewIndividual-one {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  > a {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    &:hover {
+      transform: scale(0.9);
+    }
+  }
+}

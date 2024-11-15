@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PageLoader from "../../Animations/PageLoader";
 import { SendMessageForm } from "../../Custom/Forms/Forms";
 import {
@@ -6,6 +7,10 @@ import {
 } from "../../Hooks/useQueryFetch/useQueryData";
 
 const Messages = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const { userData, isUserDataLoading } = useUserData();
   const { messagesData, isMessagesDataLoading, refetchMessages } =
     useMessagesData();

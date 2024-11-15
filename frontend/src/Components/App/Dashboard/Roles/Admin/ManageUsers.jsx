@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageLoader from "../../../../Animations/PageLoader";
 import { useAllUsersData } from "../../../../Hooks/useQueryFetch/useQueryData";
 import { roles, serVer, useToken } from "../../../../Hooks/useVariable";
@@ -6,6 +6,10 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 const ManageUsers = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const [view, setView] = useState("student");
   const [roleLoading, setRoleLoading] = useState(false);
 

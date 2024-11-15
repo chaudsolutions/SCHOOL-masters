@@ -3,6 +3,27 @@ const validator = require("validator");
 
 const Schema = mongoose.Schema;
 
+const GradesSchema = new Schema(
+  {
+    subject: { type: String },
+    score: { type: Number },
+  },
+  { timestamps: true }
+);
+
+const TeacherStudentMessagesSchema = new Schema(
+  {
+    senderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    senderRole: { type: String },
+    content: { type: String, required: true },
+  },
+  { timestamps: true }
+);
+
 const UsersSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -10,9 +31,12 @@ const UsersSchema = new Schema(
     password: { type: String, required: true },
     role: {
       type: String,
-      enum: ["admin", "user", "student", "teacher", "parent"],
+      enum: ["admin", "student", "teacher", "parent"],
       required: true,
     },
+    grades: [GradesSchema],
+    attendance: { type: Number },
+    teacherStudentMessages: [TeacherStudentMessagesSchema],
   },
   { timestamps: true }
 );

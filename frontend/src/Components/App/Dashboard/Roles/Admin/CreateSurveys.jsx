@@ -3,8 +3,13 @@ import { serVer, useToken } from "../../../../Hooks/useVariable";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ButtonLoad from "../../../../Animations/ButtonLoad";
+import { useEffect } from "react";
 
 const CreateSurveys = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const { token } = useToken();
 
   // React Hook Form

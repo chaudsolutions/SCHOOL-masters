@@ -6,9 +6,13 @@ import {
 } from "../../Hooks/useQueryFetch/useQueryData";
 import axios from "axios";
 import { serVer, useToken } from "../../Hooks/useVariable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Notifications = () => {
+  useEffect(() => {
+    window.scroll(0, 0); // scroll to top on component mount
+  }, []);
+
   const [deleteBtn, setDeleteBtn] = useState(false);
   const { userData, isUserDataLoading } = useUserData();
 
