@@ -3,7 +3,7 @@ import {
   useUserByIdData,
   useUserData,
 } from "../../../../Hooks/useQueryFetch/useQueryData";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PageLoader from "../../../../Animations/PageLoader";
 import ChartComponent from "../../../../Custom/Chart/ChartComponent";
 import {
@@ -17,21 +17,20 @@ const ViewIndividuals = () => {
     window.scroll(0, 0); // scroll to top on component mount
   }, []);
 
-  const navigate = useNavigate();
-  const { userRole, userId } = useParams();
-
-  useEffect(() => {
-    if (userRole !== "student") {
-      navigate("/dashboard");
-    }
-  }, [userRole, navigate]);
+  const { userId } = useParams();
 
   const { userData, isUserDataLoading } = useUserData();
   const { userByIdData, isUserByIdDataLoading, refetchUserById } =
     useUserByIdData(userId);
 
   const { role } = userData || {};
-  const { _id, name, grades, attendance = 0 } = userByIdData || {};
+  const {
+    _id,
+    role: userByIdRole,
+    name,
+    grades,
+    attendance = 0,
+  } = userByIdData || {};
 
   const grade =
     grades?.reduce((acc, current) => acc + current.score, 0) / grades?.length;
@@ -86,38 +85,45 @@ const ViewIndividuals = () => {
         </Link>
       </div>
 
-      {role === "teacher" && (
+      {userByIdRole !== "parent" && (
         <>
-          <SubjectGradeForm refetchStudent={refetchUserById} studentId={_id} />
-          <AttendanceSubmitForm
-            refetchStudent={refetchUserById}
-            studentId={_id}
-          />
+          {role === "teacher" && (
+            <>
+              <SubjectGradeForm
+                refetchStudent={refetchUserById}
+                studentId={_id}
+              />
+              <AttendanceSubmitForm
+                refetchStudent={refetchUserById}
+                studentId={_id}
+              />
+            </>
+          )}
+
+          {grades?.length > 0 ? (
+            <ChartComponent
+              key={""}
+              type="bar"
+              data={gradeDistributionData}
+              options={gradeDistributionOptions}
+            />
+          ) : (
+            <p>Graph will be available after grading students</p>
+          )}
+
+          <div>
+            <p>
+              Performance <progress value={grade} max="100"></progress>
+            </p>
+            <p>
+              Attendance <progress value={attendance} max="100"></progress>
+            </p>
+            <p>
+              Behavior <progress value={behavior} max="100"></progress>
+            </p>
+          </div>
         </>
       )}
-
-      {grades?.length > 0 ? (
-        <ChartComponent
-          key={""}
-          type="bar"
-          data={gradeDistributionData}
-          options={gradeDistributionOptions}
-        />
-      ) : (
-        <p>Graph will be available after grading students</p>
-      )}
-
-      <div>
-        <p>
-          Performance <progress value={grade} max="100"></progress>
-        </p>
-        <p>
-          Attendance <progress value={attendance} max="100"></progress>
-        </p>
-        <p>
-          Behavior <progress value={behavior} max="100"></progress>
-        </p>
-      </div>
     </div>
   );
 };

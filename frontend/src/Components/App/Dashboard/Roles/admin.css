@@ -47,6 +47,33 @@
     display: flex;
     gap: 0.5rem;
   }
+
+  .updateInput {
+    margin-top: 1rem;
+    display: flex;
+    flex-flow: column;
+    gap: 0.2rem;
+
+    input {
+      width: 20%;
+      padding: 0 0.3rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--trans-black);
+    }
+
+    > div {
+      display: flex;
+      gap: 0.5rem;
+
+      > button {
+        width: fit-content;
+      }
+
+      .deleteBtn {
+        background-color: red;
+      }
+    }
+  }
 }
 
 .manageUsers > form {
@@ -170,6 +197,20 @@
 
     &:hover {
       transform: scale(0.9);
+    }
+  }
+}
+
+.manageUsers .dashboard-overview {
+  display: flex;
+  flex-flow: column;
+  gap: 2rem;
+
+  > :nth-child(1) {
+    > p {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 }

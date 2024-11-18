@@ -2,9 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import {
   fetchAssignmentById,
   fetchAssignments,
+  fetchExams,
   fetchMessages,
   fetchNotifications,
   fetchResources,
+  fetchStudentsGroupChatMessages,
   fetchSurvey,
   fetchSurveys,
   fetchUser,
@@ -192,6 +194,29 @@ export const useMessagesData = () => {
   };
 };
 
+// use get students group chat messages data
+export const useStudentsGroupChatMessagesData = () => {
+  const { user } = useAuthContext();
+
+  const {
+    data: studentsGroupChatMessagesData,
+    isLoading: isStudentsGroupChatMessagesDataLoading,
+    isError: isStudentsGroupChatMessagesDataError,
+    refetch: refetchStudentsGroupChatMessages,
+  } = useQuery({
+    queryKey: ["studentsGroupChatMessages"],
+    queryFn: fetchStudentsGroupChatMessages,
+    enabled: !!user,
+  });
+
+  return {
+    studentsGroupChatMessagesData,
+    isStudentsGroupChatMessagesDataLoading,
+    isStudentsGroupChatMessagesDataError,
+    refetchStudentsGroupChatMessages,
+  };
+};
+
 // use get assignments data
 export const useAssignmentsData = () => {
   const { user } = useAuthContext();
@@ -235,5 +260,28 @@ export const useAssignmentsByIdData = (assignmentId) => {
     isAssignmentByIdDataLoading,
     isAssignmentByIdDataError,
     refetchAssignmentById,
+  };
+};
+
+// use get exams data
+export const useExamsData = () => {
+  const { user } = useAuthContext();
+
+  const {
+    data: examsData,
+    isLoading: isExamsDataLoading,
+    isError: isExamsDataError,
+    refetch: refetchExams,
+  } = useQuery({
+    queryKey: ["exams"],
+    queryFn: fetchExams,
+    enabled: !!user,
+  });
+
+  return {
+    examsData,
+    isExamsDataLoading,
+    isExamsDataError,
+    refetchExams,
   };
 };

@@ -64,6 +64,64 @@ export const SendMessageForm = ({ refetchMessages }) => {
   );
 };
 
+// send group chat message form
+export const SendGroupChatMessage = ({ refetchMessages }) => {
+  SendGroupChatMessage.propTypes = {
+    refetchMessages: PropTypes.func.isRequired,
+  };
+
+  const { token } = useToken();
+
+  // React Hook Form
+  const form = useForm();
+  const { register, handleSubmit, formState, reset } = form;
+  const { errors, isSubmitting } = formState;
+
+  // Function to register
+  const onSubmit = async (data) => {
+    const { message } = data;
+
+    try {
+      const res = await axios.post(
+        `${serVer}/student/groupChat`,
+        { message },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      await refetchMessages();
+
+      reset();
+
+      toast.success(res.data);
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  const onError = () => {
+    toast.error("Failed to submit, check inputs and try again");
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
+      <div className="inputContainer">
+        <input
+          type="text"
+          placeholder="Message"
+          {...register("message", {
+            required: "Message is required",
+          })}
+        />
+        <p>{errors.message?.message}</p>
+      </div>
+
+      <button type="submit" disabled={isSubmitting} className="submitBtn">
+        {isSubmitting ? <ButtonLoad /> : <IoSend />}
+      </button>
+    </form>
+  );
+};
+
 // send message form for teacher and student
 export const TeacherStudentMessageForm = ({
   refetchUser,
@@ -484,6 +542,64 @@ export const AttendanceSubmitForm = ({ refetchStudent, studentId }) => {
 
       <button type="submit" disabled={isSubmitting} className="submitBtn">
         {isSubmitting ? <ButtonLoad /> : <>Mark</>}
+      </button>
+    </form>
+  );
+};
+
+// form to add a new goal
+export const SetGoalForm = ({ refetchStudent }) => {
+  SetGoalForm.propTypes = {
+    refetchStudent: PropTypes.func.isRequired,
+  };
+
+  const { token } = useToken();
+
+  // React Hook Form
+  const form = useForm();
+  const { register, handleSubmit, formState, reset } = form;
+  const { errors, isSubmitting } = formState;
+
+  // Function
+  const onSubmit = async (data) => {
+    const { goal } = data;
+
+    try {
+      const res = await axios.put(
+        `${serVer}/student/add-goal`,
+        { goal },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      await refetchStudent();
+
+      reset();
+
+      toast.success(res.data);
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  const onError = () => {
+    toast.error("Failed to submit, check inputs and try again");
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
+      <div className="inputContainer">
+        <input
+          type="text"
+          placeholder="Goal"
+          {...register("goal", {
+            required: "Goal is required",
+          })}
+        />
+        <p>{errors.goal?.message}</p>
+      </div>
+
+      <button type="submit" disabled={isSubmitting} className="submitBtn">
+        {isSubmitting ? <ButtonLoad /> : <>Create Goal</>}
       </button>
     </form>
   );

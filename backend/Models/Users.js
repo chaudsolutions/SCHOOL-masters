@@ -24,6 +24,18 @@ const TeacherStudentMessagesSchema = new Schema(
   { timestamps: true }
 );
 
+const GoalsSchema = new Schema(
+  {
+    goal: { type: String, required: true },
+    dueDate: {
+      type: Date,
+      default: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    },
+    progress: { type: Number, default: 0 },
+  },
+  { timestamps: true }
+);
+
 const UsersSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -37,6 +49,8 @@ const UsersSchema = new Schema(
     grades: [GradesSchema],
     attendance: { type: Number },
     teacherStudentMessages: [TeacherStudentMessagesSchema],
+    goals: [GoalsSchema],
+    children: [],
   },
   { timestamps: true }
 );

@@ -6,6 +6,7 @@ const SurveyModel = require("../Models/Survey.js");
 const ResourcesModel = require("../Models/Resources.js");
 const MessageModel = require("../Models/Message.js");
 const AssignmentsModel = require("../Models/Assignment.js");
+const ExamsModel = require("../Models/Exam.js");
 
 const router = express.Router();
 
@@ -218,6 +219,18 @@ router.get("/assignment/:assignmentId", async (req, res) => {
     const assignment = await AssignmentsModel.findById(assignmentId);
 
     res.status(200).json(assignment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Internal Server Error");
+  }
+});
+
+// endpoint to fetch exams
+router.get("/exams", async (req, res) => {
+  try {
+    const exams = await ExamsModel.find({}).sort({ createdAt: -1 });
+
+    res.status(200).json(exams);
   } catch (error) {
     console.error(error);
     res.status(500).json("Internal Server Error");

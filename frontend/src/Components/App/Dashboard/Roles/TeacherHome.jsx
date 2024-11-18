@@ -1,5 +1,6 @@
 import { FaPeopleRoof } from "react-icons/fa6";
 import { MdAssignment, MdManageAccounts } from "react-icons/md";
+import { PiExam } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
 const TeacherHome = () => {
@@ -23,6 +24,12 @@ const TeacherHome = () => {
       description: "Students and Parents",
       icon: <FaPeopleRoof size={size} />,
       link: "/teacher/individuals",
+    },
+    {
+      name: "Exams",
+      description: "Create and set exams date",
+      icon: <PiExam size={size} />,
+      link: "/teacher/exams",
     },
   ];
 

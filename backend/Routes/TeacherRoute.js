@@ -1,6 +1,7 @@
 const express = require("express");
 const UsersModel = require("../Models/Users");
 const AssignmentsModel = require("../Models/Assignment");
+const ExamsModel = require("../Models/Exam");
 
 const router = express.Router();
 
@@ -170,6 +171,38 @@ router.put("/send/message/:studentId/:userId", async (req, res) => {
     await student.save();
 
     res.status(200).json("Message sent");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Internal Server Error");
+  }
+});
+
+// endpoint to set exam date
+router.post("/setExamDate", async (req, res) => {
+  const { from, to } = req.body;
+
+  try {
+    // Validate input
+    if (!from || !to) {
+      return res.status(400).json("Both 'from' and 'to' dates are required.");
+    }
+
+    await ExamsModel.deleteMany();
+
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+
+    if (fromDate > toDate) {
+      return res.status(400).json("'From' date must be before 'To' date.");
+    }
+
+    // Save exam date range (example logic)
+    const examDate = { from: fromDate, to: toDate };
+
+    // Save examDate to database or update the necessary record
+    await ExamsModel.create(examDate);
+
+    res.status(200).json("Exam date range set successfully.");
   } catch (error) {
     console.error(error);
     res.status(500).json("Internal Server Error");

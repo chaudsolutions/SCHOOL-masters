@@ -33,6 +33,10 @@ import StudentAssignment from "./Components/App/Dashboard/Roles/Student/StudentA
 import Individuals from "./Components/App/Dashboard/Roles/Teacher/Individuals";
 import ViewIndividuals from "./Components/App/Dashboard/Roles/Teacher/ViewIndividuals";
 import MessageIndividual from "./Components/App/Dashboard/Roles/Teacher/Messageindividual";
+import PersonalizedDashboard from "./Components/App/Dashboard/Roles/Student/PersonalizedDashboard";
+import Exams from "./Components/App/Dashboard/Roles/Teacher/Exams";
+import Goals from "./Components/App/Dashboard/Roles/Student/Goals";
+import GroupChat from "./Components/App/Dashboard/Roles/Student/GroupChat";
 
 function App() {
   const { user } = useAuthContext();
@@ -210,6 +214,10 @@ function App() {
                 )
               }
             />
+            <Route
+              path="/teacher/exams"
+              element={user && isTeacher ? <Exams /> : <Navigate to="/login" />}
+            />
 
             {/* students route */}
             <Route
@@ -217,6 +225,30 @@ function App() {
               element={
                 user && isStudent ? (
                   <StudentAssignment />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/student/personalized-dashboard"
+              element={
+                user && isStudent ? (
+                  <PersonalizedDashboard />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/student/goals"
+              element={user && isStudent ? <Goals /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/student/chatroom"
+              element={
+                user && (isStudent || isTeacher) ? (
+                  <GroupChat />
                 ) : (
                   <Navigate to="/login" />
                 )

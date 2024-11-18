@@ -18,7 +18,7 @@ const Messages = () => {
   const { role } = userData || {};
   const isAdmin = role === "admin";
 
-  if (isMessagesDataLoading) {
+  if (isUserDataLoading || isMessagesDataLoading) {
     return (
       <div className="loader-container">
         <PageLoader />

@@ -6,11 +6,10 @@
 }
 .roles-dashboard > li {
   flex-grow: 1;
-  width: 45%;
+  width: 30%;
   min-width: 15rem;
   border: 1px solid var(--accent-color);
-  border-radius: 0.5rem;
-  box-shadow: 0.1rem 0.2rem 0.5rem var(--trans-black);
+  border-radius: 0.2rem;
 
   &:hover {
     transform: scale(1.03);

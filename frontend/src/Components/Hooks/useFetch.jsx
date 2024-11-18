@@ -137,6 +137,23 @@ export const fetchMessages = async () => {
   return response.data;
 };
 
+// hook to fetch students group chat messages
+export const fetchStudentsGroupChatMessages = async () => {
+  const token = localStorage.getItem(localStorageToken);
+
+  const response = await axios.get(`${serVer}/student/groupChat`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.status !== 200) {
+    throw new Error("Network response was not ok");
+  }
+
+  return response.data;
+};
+
 // endpoint to fetch assignments
 export const fetchAssignments = async () => {
   const token = localStorage.getItem(localStorageToken);
@@ -166,6 +183,23 @@ export const fetchAssignmentById = async (assignmentId) => {
       },
     }
   );
+
+  if (response.status !== 200) {
+    throw new Error("Network response was not ok");
+  }
+
+  return response.data;
+};
+
+// endpoint to fetch exams
+export const fetchExams = async () => {
+  const token = localStorage.getItem(localStorageToken);
+
+  const response = await axios.get(`${serVer}/user/exams`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (response.status !== 200) {
     throw new Error("Network response was not ok");

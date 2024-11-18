@@ -1,27 +1,26 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import {
-  useUserByIdData,
+  useStudentsGroupChatMessagesData,
   useUserData,
 } from "../../../../Hooks/useQueryFetch/useQueryData";
 import PageLoader from "../../../../Animations/PageLoader";
-import { TeacherStudentMessageForm } from "../../../../Custom/Forms/Forms";
+import { SendGroupChatMessage } from "../../../../Custom/Forms/Forms";
 
-const MessageIndividual = () => {
+const GroupChat = () => {
   useEffect(() => {
     window.scroll(0, 0); // scroll to top on component mount
   }, []);
 
-  const { userId } = useParams();
-
   const { userData, isUserDataLoading } = useUserData();
-  const { userByIdData, isUserByIdDataLoading, refetchUserById } =
-    useUserByIdData(userId);
+  const {
+    studentsGroupChatMessagesData,
+    isStudentsGroupChatMessagesDataLoading,
+    refetchStudentsGroupChatMessages,
+  } = useStudentsGroupChatMessagesData();
 
-  const { _id, role: mainUserRole } = userData || {};
-  const { name, role, teacherStudentMessages } = userByIdData || {};
+  const { _id, role } = userData || {};
 
-  const messagesList = teacherStudentMessages?.map((message) => {
+  const messagesList = studentsGroupChatMessagesData?.map((message) => {
     const isSentByCurrentUser = message.senderId === _id;
 
     return (
@@ -43,7 +42,7 @@ const MessageIndividual = () => {
     );
   });
 
-  if (isUserByIdDataLoading || isUserDataLoading) {
+  if (isUserDataLoading || isStudentsGroupChatMessagesDataLoading) {
     return (
       <div className="loader-container">
         <PageLoader />
@@ -53,24 +52,20 @@ const MessageIndividual = () => {
 
   return (
     <div className="manageUsers">
-      {mainUserRole === "teacher" ? (
-        <>
-          <h2>Message {name}</h2>
-          <p>{role}</p>
-        </>
-      ) : (
-        <h2>Messaging with teacher</h2>
-      )}
+      <div className="viewIndividual-one">
+        <h2>Group Chat</h2>
+        <p>This group chat is monitored</p>
+      </div>
 
       <ul className="messageBox">{messagesList}</ul>
 
-      <TeacherStudentMessageForm
-        refetchUser={refetchUserById}
-        studentId={userId}
-        userId={_id}
-      />
+      {role === "student" && (
+        <SendGroupChatMessage
+          refetchMessages={refetchStudentsGroupChatMessages}
+        />
+      )}
     </div>
   );
 };
 
-export default MessageIndividual;
+export default GroupChat;
