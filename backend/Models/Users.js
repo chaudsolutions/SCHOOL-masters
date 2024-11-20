@@ -36,6 +36,17 @@ const GoalsSchema = new Schema(
   { timestamps: true }
 );
 
+const ChildrenSchema = new Schema(
+  {
+    childId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
 const UsersSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -50,7 +61,7 @@ const UsersSchema = new Schema(
     attendance: { type: Number },
     teacherStudentMessages: [TeacherStudentMessagesSchema],
     goals: [GoalsSchema],
-    children: [],
+    children: [ChildrenSchema],
   },
   { timestamps: true }
 );

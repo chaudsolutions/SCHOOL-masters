@@ -207,3 +207,30 @@ export const fetchExams = async () => {
 
   return response.data;
 };
+
+// hook to fetch parent's children
+export const fetchParentChildren = async (children) => {
+  const token = localStorage.getItem(localStorageToken);
+
+  // Fetch details for each child using Promise.all
+  const detailedChildren = await Promise.all(
+    children.map(async (child) => {
+      const response = await axios.get(
+        `${serVer}/teacher/userDetails/${child.childId}`, // Adjust endpoint if needed
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.data;
+    })
+  );
+
+  return detailedChildren;
+};

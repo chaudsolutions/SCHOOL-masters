@@ -37,6 +37,7 @@ import PersonalizedDashboard from "./Components/App/Dashboard/Roles/Student/Pers
 import Exams from "./Components/App/Dashboard/Roles/Teacher/Exams";
 import Goals from "./Components/App/Dashboard/Roles/Student/Goals";
 import GroupChat from "./Components/App/Dashboard/Roles/Student/GroupChat";
+import ParentOverview from "./Components/App/Dashboard/Roles/Parent/ParentOverview";
 
 function App() {
   const { user } = useAuthContext();
@@ -252,6 +253,14 @@ function App() {
                 ) : (
                   <Navigate to="/login" />
                 )
+              }
+            />
+
+            {/* parents route */}
+            <Route
+              path="/parent/overview"
+              element={
+                user && isParent ? <ParentOverview /> : <Navigate to="/login" />
               }
             />
 

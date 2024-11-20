@@ -5,6 +5,7 @@ import {
   fetchExams,
   fetchMessages,
   fetchNotifications,
+  fetchParentChildren,
   fetchResources,
   fetchStudentsGroupChatMessages,
   fetchSurvey,
@@ -283,5 +284,28 @@ export const useExamsData = () => {
     isExamsDataLoading,
     isExamsDataError,
     refetchExams,
+  };
+};
+
+// use parent's children data
+export const useParentChildrenData = (children) => {
+  const { user } = useAuthContext();
+
+  const {
+    data: parentChildrenData,
+    isLoading: isParentChildrenDataLoading,
+    isError: isParentChildrenDataError,
+    refetch: refetchParentChildren,
+  } = useQuery({
+    queryKey: ["parentsChildren"],
+    queryFn: () => fetchParentChildren(children),
+    enabled: !!user,
+  });
+
+  return {
+    parentChildrenData,
+    isParentChildrenDataLoading,
+    isParentChildrenDataError,
+    refetchParentChildren,
   };
 };

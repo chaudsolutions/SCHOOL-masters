@@ -604,3 +604,74 @@ export const SetGoalForm = ({ refetchStudent }) => {
     </form>
   );
 };
+
+// add a child form
+
+export const AddChildForm = ({ refetchUser, refetchChildren }) => {
+  AddChildForm.propTypes = {
+    refetchUser: PropTypes.func.isRequired,
+    refetchChildren: PropTypes.func.isRequired,
+  };
+
+  const { token } = useToken();
+
+  // React Hook Form
+  const form = useForm();
+  const { register, handleSubmit, formState, reset } = form;
+  const { errors, isSubmitting } = formState;
+
+  // Function
+  const onSubmit = async (data) => {
+    const { childName, childEmail } = data;
+
+    try {
+      const res = await axios.put(
+        `${serVer}/parent/addAChild`,
+        { childName, childEmail },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      await refetchUser();
+      await refetchChildren();
+
+      reset();
+
+      toast.success(res.data);
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
+
+  const onError = () => {
+    toast.error("Failed to submit, check inputs and try again");
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
+      <div className="inputContainer">
+        <input
+          type="text"
+          placeholder="Child Name"
+          {...register("childName", {
+            required: "Child Name is required",
+          })}
+        />
+        <p>{errors.childName?.message}</p>
+      </div>
+      <div className="inputContainer">
+        <input
+          type="email"
+          placeholder="Child Email"
+          {...register("childEmail", {
+            required: "Child Email is required",
+          })}
+        />
+        <p>{errors.childEmail?.message}</p>
+      </div>
+
+      <button type="submit" disabled={isSubmitting} className="submitBtn">
+        {isSubmitting ? <ButtonLoad /> : <>Add Child</>}
+      </button>
+    </form>
+  );
+};
