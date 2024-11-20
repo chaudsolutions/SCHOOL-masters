@@ -32,7 +32,7 @@ import AssignmentsId from "./Components/App/Assignments/AssignmentId";
 import StudentAssignment from "./Components/App/Dashboard/Roles/Student/StudentAssignment";
 import Individuals from "./Components/App/Dashboard/Roles/Teacher/Individuals";
 import ViewIndividuals from "./Components/App/Dashboard/Roles/Teacher/ViewIndividuals";
-import MessageIndividual from "./Components/App/Dashboard/Roles/Teacher/Messageindividual";
+import MessageIndividual from "./Components/App/Dashboard/Roles/Teacher/MessageIndividual";
 import PersonalizedDashboard from "./Components/App/Dashboard/Roles/Student/PersonalizedDashboard";
 import Exams from "./Components/App/Dashboard/Roles/Teacher/Exams";
 import Goals from "./Components/App/Dashboard/Roles/Student/Goals";
