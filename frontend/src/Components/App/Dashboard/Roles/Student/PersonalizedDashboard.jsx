@@ -22,7 +22,7 @@ const PersonalizedDashboard = () => {
   const { examsData, isExamsDataLoading } = useExamsData();
 
   const { name, grades, attendance = 0 } = userData || {};
-  const { from, to } = examsData[0] || {};
+  const { from, to } = examsData || {};
 
   const grade =
     grades?.reduce((acc, current) => acc + current.score, 0) / grades?.length;
@@ -130,28 +130,28 @@ const PersonalizedDashboard = () => {
           <div>
             <p>
               <span>Performance</span>{" "}
-              <progress value={grade} max="100"></progress>
+              <progress value={grade || 0} max="100"></progress>
             </p>
             <p>
               <span>Attendance</span>{" "}
-              <progress value={attendance} max="100"></progress>
+              <progress value={attendance || 0} max="100"></progress>
             </p>
             <p>
               <span>Behavior</span>{" "}
-              <progress value={behavior} max="100"></progress>
+              <progress value={behavior || 0} max="100"></progress>
             </p>
           </div>
 
           <div>
-            {grades?.length > 0 ? (
+            {grades?.length === 0 ? (
+              <p>Graph will be available after You have been graded</p>
+            ) : (
               <ChartComponent
                 key={view}
                 type="bar"
                 data={gradeDistributionData}
                 options={gradeDistributionOptions}
               />
-            ) : (
-              <p>Graph will be available after You have been graded</p>
             )}
           </div>
         </div>

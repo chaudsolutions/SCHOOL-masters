@@ -142,7 +142,15 @@ const ParentOverview = () => {
       )}
 
       {/* view children form */}
-      {view === "viewChildren" && <ul className="usersList">{childrenList}</ul>}
+      {view === "viewChildren" && (
+        <>
+          {childrenList.length === 0 ? (
+            <>You have not added a child yet!</>
+          ) : (
+            <ul className="usersList">{childrenList}</ul>
+          )}
+        </>
+      )}
     </div>
   );
 };

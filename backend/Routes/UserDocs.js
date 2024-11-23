@@ -230,7 +230,7 @@ router.get("/exams", async (req, res) => {
   try {
     const exams = await ExamsModel.find({}).sort({ createdAt: -1 });
 
-    res.status(200).json(exams);
+    res.status(200).json(exams[0]);
   } catch (error) {
     console.error(error);
     res.status(500).json("Internal Server Error");
