@@ -16,7 +16,7 @@ const Footer = () => {
         </ul>
       </div>
 
-      <div>School Copyright © 2024</div>
+      <div>EduNest Copyright © 2024</div>
     </div>
   );
 };
