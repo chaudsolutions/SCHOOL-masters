@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
+  useParentChildrenData,
   useUserByIdData,
   useUserData,
 } from "../../../../Hooks/useQueryFetch/useQueryData";
@@ -7,6 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import PageLoader from "../../../../Animations/PageLoader";
 import ChartComponent from "../../../../Custom/Chart/ChartComponent";
 import {
+  AddChildForm,
   AttendanceSubmitForm,
   SubjectGradeForm,
 } from "../../../../Custom/Forms/Forms";
@@ -19,6 +21,8 @@ const ViewIndividuals = () => {
 
   const { userId } = useParams();
 
+  const [view, setView] = useState("addChildren");
+
   const { userData, isUserDataLoading } = useUserData();
   const { userByIdData, isUserByIdDataLoading, refetchUserById } =
     useUserByIdData(userId);
@@ -30,7 +34,14 @@ const ViewIndividuals = () => {
     name,
     grades,
     attendance = 0,
+    children,
   } = userByIdData || {};
+
+  const {
+    parentChildrenData,
+    isParentChildrenDataLoading,
+    refetchParentChildren,
+  } = useParentChildrenData(children);
 
   const grade =
     grades?.reduce((acc, current) => acc + current.score, 0) / grades?.length;
@@ -67,7 +78,79 @@ const ViewIndividuals = () => {
     },
   };
 
-  if (isUserByIdDataLoading || isUserDataLoading) {
+  // children list
+  // children list
+  const childrenList = parentChildrenData?.map((child) => {
+    const { grades, attendance = 0 } = child;
+
+    const grade =
+      grades?.reduce((acc, current) => acc + current.score, 0) / grades?.length;
+
+    const behavior = (grade + attendance) / 2;
+
+    const gradeDistributionData = {
+      labels: grades?.map((grade) => grade.subject), // Grade labels
+      datasets: [
+        {
+          label: "Subjects",
+          data: grades?.map((grade) => grade.score), // Example data - replace with dynamic data
+          backgroundColor: [
+            "#4CAF50",
+            "#FFC107",
+            "#2196F3",
+            "#FF5722",
+            "#9E9E9E",
+          ],
+        },
+      ],
+    };
+
+    const gradeDistributionOptions = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Grade Distribution",
+        },
+      },
+    };
+
+    return (
+      <li key={child._id} className="child">
+        <h3>{child.name}</h3>
+        <h4>{child.email}</h4>
+        <p>
+          Performance <progress value={grade} max="100"></progress>
+        </p>
+        <p>
+          Attendance <progress value={attendance} max="100"></progress>
+        </p>
+        <p>
+          Behavior <progress value={behavior} max="100"></progress>
+        </p>
+
+        {grades?.length > 0 ? (
+          <ChartComponent
+            key={view}
+            type="bar"
+            data={gradeDistributionData}
+            options={gradeDistributionOptions}
+          />
+        ) : (
+          <p>Graph will be available after student has been graded</p>
+        )}
+      </li>
+    );
+  });
+
+  if (
+    isUserByIdDataLoading ||
+    isUserDataLoading ||
+    isParentChildrenDataLoading
+  ) {
     return (
       <div className="loader-container">
         <PageLoader />
@@ -84,6 +167,46 @@ const ViewIndividuals = () => {
           <p>Message</p>
         </Link>
       </div>
+
+      {userByIdRole !== "student" && (
+        <>
+          <div className="toggleBtn">
+            <button
+              className={`${view === "addChildren" && "activeBtn"}`}
+              onClick={() => {
+                setView("addChildren");
+              }}>
+              Add a Child
+            </button>
+            <button
+              className={`${view === "viewChildren" && "activeBtn"}`}
+              onClick={() => {
+                setView("viewChildren");
+              }}>
+              Children
+            </button>
+          </div>
+
+          {/* add a child form */}
+          {view === "addChildren" && (
+            <AddChildForm
+              refetchUser={refetchUserById}
+              refetchChildren={refetchParentChildren}
+            />
+          )}
+
+          {/* view children form */}
+          {view === "viewChildren" && (
+            <>
+              {childrenList.length === 0 ? (
+                <>You have not added a child yet!</>
+              ) : (
+                <ul className="usersList">{childrenList}</ul>
+              )}
+            </>
+          )}
+        </>
+      )}
 
       {userByIdRole !== "parent" && (
         <>

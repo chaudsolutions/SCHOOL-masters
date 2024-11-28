@@ -29,7 +29,6 @@ const userRoute = require("./Routes/UserDocs.js");
 const adminRoute = require("./Routes/AdminRoute");
 const teacherRoute = require("./Routes/TeacherRoute");
 const studentRoute = require("./Routes/StudentRoute");
-const parentRoute = require("./Routes/ParentRoute");
 
 // Define a default route handler for the root URL ("/")
 app.get("/", (req, res) => {
@@ -58,11 +57,6 @@ app.use("/teacher", teacherRoute);
 app.use("/student", requireAuth);
 // Student route
 app.use("/student", studentRoute);
-
-// Route protection
-app.use("/parent", requireAuth);
-// Parent route
-app.use("/parent", parentRoute);
 
 // Start http server
 app.listen(port, () => {

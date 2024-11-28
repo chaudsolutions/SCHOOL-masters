@@ -626,7 +626,7 @@ export const AddChildForm = ({ refetchUser, refetchChildren }) => {
 
     try {
       const res = await axios.put(
-        `${serVer}/parent/addAChild`,
+        `${serVer}/teacher/addAChild`,
         { childName, childEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );

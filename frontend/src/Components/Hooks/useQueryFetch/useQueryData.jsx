@@ -297,7 +297,7 @@ export const useParentChildrenData = (children) => {
     isError: isParentChildrenDataError,
     refetch: refetchParentChildren,
   } = useQuery({
-    queryKey: ["parentsChildren"],
+    queryKey: ["parentsChildren", children?.map((child) => child.childId)],
     queryFn: () => fetchParentChildren(children),
     enabled: !!user,
   });

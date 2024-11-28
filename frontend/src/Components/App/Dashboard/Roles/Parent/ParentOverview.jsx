@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { AddChildForm } from "../../../../Custom/Forms/Forms";
+import { useEffect, useRef } from "react";
 import {
   useParentChildrenData,
   useUserData,
@@ -22,16 +21,12 @@ const ParentOverview = () => {
     documentTitle: "Child Report",
   });
 
-  const [view, setView] = useState("addChildren");
-  const { userData, isUserDataLoading, refetchUserData } = useUserData();
+  const { userData, isUserDataLoading } = useUserData();
 
   const { children } = userData || {};
 
-  const {
-    parentChildrenData,
-    isParentChildrenDataLoading,
-    refetchParentChildren,
-  } = useParentChildrenData(children);
+  const { parentChildrenData, isParentChildrenDataLoading } =
+    useParentChildrenData(children);
 
   // children list
   const childrenList = parentChildrenData?.map((child) => {
@@ -89,7 +84,7 @@ const ParentOverview = () => {
 
           {grades?.length > 0 ? (
             <ChartComponent
-              key={view}
+              key={""}
               type="bar"
               data={gradeDistributionData}
               options={gradeDistributionOptions}
@@ -116,40 +111,13 @@ const ParentOverview = () => {
 
   return (
     <div className="manageUsers">
-      <div className="toggleBtn">
-        <button
-          className={`${view === "addChildren" && "activeBtn"}`}
-          onClick={() => {
-            setView("addChildren");
-          }}>
-          Add a Child
-        </button>
-        <button
-          className={`${view === "viewChildren" && "activeBtn"}`}
-          onClick={() => {
-            setView("viewChildren");
-          }}>
-          Children
-        </button>
-      </div>
+      <h2>Children</h2>
 
-      {/* add a child form */}
-      {view === "addChildren" && (
-        <AddChildForm
-          refetchUser={refetchUserData}
-          refetchChildren={refetchParentChildren}
-        />
-      )}
-
-      {/* view children form */}
-      {view === "viewChildren" && (
-        <>
-          {childrenList.length === 0 ? (
-            <>You have not added a child yet!</>
-          ) : (
-            <ul className="usersList">{childrenList}</ul>
-          )}
-        </>
+      {/* view children */}
+      {childrenList.length === 0 ? (
+        <p>You have not added a child yet!</p>
+      ) : (
+        <ul className="usersList">{childrenList}</ul>
       )}
     </div>
   );
