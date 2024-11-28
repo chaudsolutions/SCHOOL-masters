@@ -29,9 +29,10 @@
     flex-flow: column;
   }
 
-  > select {
-    margin-top: 0.5rem;
+  select {
     width: fit-content;
+    height: fit-content;
+    margin-right: 0.5rem;
   }
 
   button {
@@ -39,18 +40,13 @@
     background-color: var(--accent-color);
     color: var(--white);
     width: fit-content;
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 0.5rem;
     border-radius: 0.5rem;
 
     &:hover {
       background-color: var(--accent-color-dark);
       box-shadow: 0.1rem 0.2rem 0.3rem var(--trans-black);
     }
-  }
-
-  > div {
-    display: flex;
-    gap: 0.5rem;
   }
 
   .updateInput {
@@ -68,14 +64,11 @@
 
     > div {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
+      align-items: center;
 
       > button {
         width: fit-content;
-      }
-
-      .deleteBtn {
-        background-color: red;
       }
     }
   }
@@ -134,7 +127,7 @@
   }
 }
 .manageUsers .deleteBtn {
-  background-color: var(--accent-color);
+  background-color: red !important;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   color: var(--white);

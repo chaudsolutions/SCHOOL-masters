@@ -166,4 +166,27 @@ router.post("/send/messages", async (req, res) => {
   }
 });
 
+// endpoint for admin to delete a user
+
+router.delete("/deleteUser/:userToDeleteId", async (req, res) => {
+  const { userToDeleteId } = req.params;
+  const userId = req.userId;
+
+  try {
+    // find user
+    const user = await UsersModel.findById(userId);
+    if (user.role !== "admin") {
+      throw Error("Unauthorized access.");
+    }
+
+    // delete user
+    await UsersModel.findByIdAndDelete(userToDeleteId);
+
+    res.status(200).json("User deleted successfully.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Internal server error.");
+  }
+});
+
 module.exports = router;
