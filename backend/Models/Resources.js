@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const RoleSchema = new Schema(
   {
     resourcesTitle: { type: String, required: true },
-    resourcesDescription: { type: String, required: true },
+    resourceFileUrl: { type: String, required: true },
   },
   { timestamps: true }
 );

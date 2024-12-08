@@ -17,10 +17,6 @@ const NavMenu = () => {
       name: "Home",
       link: "/",
     },
-    {
-      name: "About",
-      link: "/about",
-    },
   ];
 
   const navMenuOutput = navMenuArray.map((item, i) => (

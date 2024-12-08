@@ -3,7 +3,8 @@ import { roles, serVer, useToken } from "../../../../Hooks/useVariable";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ButtonLoad from "../../../../Animations/ButtonLoad";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FaCamera } from "react-icons/fa";
 
 const ResourcesManagement = () => {
   useEffect(() => {
@@ -12,6 +13,8 @@ const ResourcesManagement = () => {
 
   const { token } = useToken();
 
+  const [selectedFileName, setSelectedFileName] = useState("");
+
   // React Hook Form
   const form = useForm();
   const { register, handleSubmit, formState, reset } = form;
@@ -19,13 +22,25 @@ const ResourcesManagement = () => {
 
   // Function to register
   const onSubmit = async (data) => {
-    const { resourcesTitle, resourcesDescription, role } = data;
+    const { resourcesTitle, resourcesDescription, role, resourceFile } = data;
+
+    // Create FormData object
+    const formData = new FormData();
+    formData.append("resourcesTitle", resourcesTitle);
+    formData.append("resourcesDescription", resourcesDescription);
+    formData.append("role", role);
+    formData.append("resourceFile", resourceFile[0]); // Files are in an array, take the first one
 
     try {
       const res = await axios.post(
         `${serVer}/admin/createResources`,
-        { resourcesTitle, resourcesDescription, role },
-        { headers: { Authorization: `Bearer ${token}` } }
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       reset();
@@ -38,6 +53,11 @@ const ResourcesManagement = () => {
 
   const onError = () => {
     toast.error("Failed to submit, check inputs and try again");
+  };
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setSelectedFileName(selectedFile?.name || "");
   };
 
   return (
@@ -56,14 +76,25 @@ const ResourcesManagement = () => {
           <p>{errors.resourcesTitle?.message}</p>
         </div>
         <div className="inputContainer">
-          <textarea
-            type="text"
-            placeholder="Resources Description"
-            {...register("resourcesDescription", {
-              required: "Resources Description is required",
-            })}
-          />
-          <p>{errors.resourcesDescription?.message}</p>
+          <label htmlFor="file">
+            {selectedFileName || (
+              <>
+                Add Resources File <FaCamera />
+              </>
+            )}
+
+            <input
+              type="file"
+              accept=".pdf"
+              id="file"
+              {...register("resourceFile", {
+                required: "Resources Description is required",
+                onChange: handleFileChange,
+              })}
+              style={{ display: "none" }}
+            />
+            <p>{errors.resourceFile?.message}</p>
+          </label>
         </div>
 
         <div className="inputContainer">

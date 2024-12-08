@@ -23,14 +23,16 @@ const Resources = () => {
 
   const { resources } = resourcesByRoleData || {};
 
-  const resourcesList = resources?.map((resource) => (
-    <li key={resource._id}>
-      <h4>{resource.resourcesTitle}</h4>
-      <p>{resource.resourcesDescription}</p>
-
-      <p>{new Date(resource.createdAt).toDateString()}</p>
-    </li>
-  ));
+  const resourcesList = resources?.map((resource) => {
+    return (
+      <li key={resource._id}>
+        <h4>{resource.resourcesTitle}</h4>
+        <p>{resource.resourcesDescription}</p>
+        <a href={resource.resourceFileUrl}>View File</a>
+        <p>{new Date(resource.createdAt).toDateString()}</p>
+      </li>
+    );
+  });
 
   return (
     <div className="manageUsers">

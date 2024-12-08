@@ -1,10 +1,24 @@
 const express = require("express");
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const streamifier = require("streamifier");
 
 const UsersModel = require("../Models/Users.js");
 const AnnouncementModel = require("../Models/Announcement.js");
 const SurveyModel = require("../Models/Survey.js");
 const ResourcesModel = require("../Models/Resources.js");
 const MessageModel = require("../Models/Message.js");
+
+// cloudinary configurations
+const cloud_name = process.env.cloudinaryName;
+const api_key = process.env.cloudinaryApiKey;
+const api_secret = process.env.cloudinaryApiSecret;
+
+cloudinary.config({
+  cloud_name,
+  api_key,
+  api_secret,
+});
 
 const router = express.Router();
 
@@ -107,38 +121,71 @@ router.post("/createSurvey", async (req, res) => {
   }
 });
 
+// Multer configuration for handling file uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 // endpoint to create a resources
-
-router.post("/createResources", async (req, res) => {
-  const userId = req.userId;
-  const { resourcesTitle, resourcesDescription, role } = req.body;
-
-  try {
-    // find user
-    const user = await UsersModel.findById(userId);
-    if (user.role !== "admin") {
-      throw Error("Unauthorized access.");
+router.post(
+  "/createResources",
+  upload.single("resourceFile"),
+  async (req, res) => {
+    const userId = req.userId;
+    const { resourcesTitle, role } = req.body;
+    const file = req.file;
+    if (!file) {
+      throw Error("No file uploaded.");
     }
 
-    // find if role exists already and push in the resources or create a new resources
-    let resource = await ResourcesModel.findOne({ role });
-    if (resource) {
-      resource.resources.push({ resourcesTitle, resourcesDescription });
+    try {
+      // find user
+      const user = await UsersModel.findById(userId);
+      if (user.role !== "admin") {
+        throw Error("Unauthorized access.");
+      }
 
-      await resource.save();
-    } else {
-      await ResourcesModel.create({
-        role,
-        resources: [{ resourcesTitle, resourcesDescription }],
-      });
+      // Upload file to Cloudinary
+      const cloudinaryUpload = () => {
+        return new Promise((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            { folder: "EduNest" },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          );
+
+          // Pipe the file buffer to the upload stream
+          streamifier.createReadStream(file.buffer).pipe(uploadStream);
+        });
+      };
+
+      const cloudinaryResult = await cloudinaryUpload();
+      const url = cloudinaryResult.secure_url;
+
+      // find if role exists already and push in the resources or create a new resources
+      let resource = await ResourcesModel.findOne({ role });
+      if (resource) {
+        resource.resources.push({
+          resourcesTitle,
+          resourceFileUrl: url,
+        });
+
+        await resource.save();
+      } else {
+        await ResourcesModel.create({
+          role,
+          resources: [{ resourcesTitle, resourceFileUrl: url }],
+        });
+      }
+
+      res.status(200).json("Resource created successfully.");
+    } catch (error) {
+      console.error(error);
+      res.status(500).json("Internal server error.");
     }
-
-    res.status(200).json("Resource created successfully.");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json("Internal server error.");
   }
-});
+);
 
 // endpoint for admin to send message
 router.post("/send/messages", async (req, res) => {
