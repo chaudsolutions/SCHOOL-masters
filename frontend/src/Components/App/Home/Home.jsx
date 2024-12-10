@@ -5,11 +5,14 @@ import "./home.css";
 import { PiSpiralFill } from "react-icons/pi";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { useEffect } from "react";
+import { useAuthContext } from "../../Context/AuthContext";
 
 const Home = () => {
   useEffect(() => {
     window.scroll(0, 0); // scroll to top on component mount
   }, []);
+
+  const { user } = useAuthContext();
 
   const secOne = [
     {
@@ -45,7 +48,14 @@ const Home = () => {
           <h1>Education is key to better future</h1>
           <p>Learning and developing just got easier...</p>
           <p>More than 1,000 users...</p>
-          <LinkOne linkDetails={[{ name: "Get Started", url: "/register" }]} />
+          <LinkOne
+            linkDetails={[
+              {
+                name: user ? "Dashboard" : "Get Started",
+                url: user ? "/dashboard" : "/register",
+              },
+            ]}
+          />
         </div>
       </header>
 
@@ -57,7 +67,7 @@ const Home = () => {
         <div>
           <PiSpiralFill size={100} />
 
-          <ul>{secOneOutput}</ul>
+          <ul className="home-ul">{secOneOutput}</ul>
         </div>
       </section>
     </main>

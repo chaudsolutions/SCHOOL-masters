@@ -38,6 +38,7 @@ import Exams from "./Components/App/Dashboard/Roles/Teacher/Exams";
 import Goals from "./Components/App/Dashboard/Roles/Student/Goals";
 import GroupChat from "./Components/App/Dashboard/Roles/Student/GroupChat";
 import ParentOverview from "./Components/App/Dashboard/Roles/Parent/ParentOverview";
+import About from "./Components/App/About/About";
 
 function App() {
   const { user } = useAuthContext();
@@ -67,11 +68,10 @@ function App() {
           {/* routing */}
           <Routes>
             {/* home */}
-            <Route
-              path="/"
-              exact
-              element={!user ? <Home /> : <Navigate to="/dashboard" />}
-            />
+            <Route path="/" exact element={<Home />} />
+
+            {/* about */}
+            <Route path="/about" element={<About />} />
 
             {/* authentication */}
             <Route

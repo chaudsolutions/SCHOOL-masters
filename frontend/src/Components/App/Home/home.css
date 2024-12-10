@@ -71,7 +71,7 @@
       color: var(--accent-color);
     }
 
-    > ul {
+    .home-ul {
       display: flex;
       flex-flow: column;
       gap: 0.5rem;
@@ -87,6 +87,23 @@
         p {
           font-size: clamp(0.9rem, 1vw, 1rem);
         }
+      }
+    }
+  }
+
+  /* about ul */
+  .about-ul {
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+
+    > li {
+      > h3 {
+        color: var(--accent-color);
+      }
+      > p {
+        color: var(--black);
+        font-size: 0.9rem;
       }
     }
   }

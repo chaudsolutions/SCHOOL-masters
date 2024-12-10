@@ -5,7 +5,7 @@ import "./nav.css";
 import { useEffect, useState } from "react";
 import NavSlide, { AuthContainer, UserProfile } from "./NavSlide";
 import NavMenu from "./NavMenu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useAuthContext } from "../../Context/AuthContext";
 
@@ -42,7 +42,7 @@ const Nav = () => {
     <>
       <div className="nav">
         <div>
-          <Logo navigate={navigate} user={user} />
+          <Logo navigate={navigate} />
           {!isMobile && <NavMenu />}
         </div>
 
@@ -66,9 +66,11 @@ const Nav = () => {
   );
 };
 
-export const Logo = ({ navigate, user }) => {
+export const Logo = ({ navigate }) => {
+  const { pathname } = useLocation();
+
   const goHome = () => {
-    user ? navigate("/dashboard") : navigate("/");
+    pathname === "/dashboard" ? navigate("/") : navigate("/dashboard");
   };
 
   return (
